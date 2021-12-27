@@ -33,9 +33,23 @@ This is a page designed for a social group that want to know how many of their m
 The main page is a simple form with a club logo and clean [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/) form layout. The admin page will be accessed through a link on the top of the page, and is password protected. The admin page will display the data gathered from the forms that have been submitted in a table, with totals displayed clearly when necessary.
 
 ### Wireframes
+Below are the wireframes used to help design the page layouts
+
+#### Home Page
+![wireframe for home page](static/img/home.png)
+#### Form Submission Modal
+![wireframe for form submission modal](static/img/home_confirm.png)
+#### Login Modal
+![wireframe for login modal](static/img/login.png)
+#### Admin Page
+![wireframe for admin page](static/img/admin.png)
+#### Reset Confirmation Modal
+![wireframe for reset confirmation modal](static/img/reset_confirm.png)
+
 Back to [Table of Contents](#table-of-contents)
 ### Database
-The database used is a non relational database, using [MongoDB](https://www.mongodb.com/), and containing one table with the required fields. Click [here]() to view the database schema.
+The database used is a non relational database, using [MongoDB](https://www.mongodb.com/), and containing one table with the required fields.Belo is the database schema used:
+ ![database schema](static/img/database_schema.png)
 
 ## Features
   - A central logo to identify the site owner with a heading and instructions for the user
