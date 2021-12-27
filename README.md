@@ -136,4 +136,7 @@ Back to [Table of Contents](#table-of-contents)
 ### Content
   - All content was written by myself or taken from documentation relating to the various API's used to facilitate this page.
 
+### Acknowledgements
+  - The logo picture was sourced from Aviation & Combined Services Lodge No. 8504.
+
 Back to [Table of Contents](#table-of-contents)

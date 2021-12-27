@@ -1,5 +1,5 @@
 .header-spacer {
-  height: 150px;
+  height: 175px;
 }
 
 .page-container {
@@ -8,10 +8,15 @@
 }
 
 .main-content {
-  padding-bottom: 4rem;
+  padding-bottom: 6rem;
+}
+
+header {
+  background-color: white;
 }
 
 footer {
+  background-color: white;
   position: absolute;
   bottom: 0;
 }
@@ -20,8 +25,16 @@ footer .row {
   min-height: 4rem;
 }
 
+.attendance-form {
+  margin-bottom: 4rem;
+}
+
 @media (max-width: 568px) {
   h1 {
     font-size: 1.5rem;
+  }
+
+  .main-content {
+    padding-bottom: 13rem;
   }
 }
