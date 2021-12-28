@@ -15,21 +15,19 @@
   <body>
     <div class="page-container">
       <div class="main-content">
-        <header class="container-fluid fixed-top">
+        <header class="container-fluid fixed-top pb-3">
           <div class="row">
             <div class="col d-flex align-items-center mt-3">
               <img class="mx-3" src="{{ url_for('static', filename='img/logo-resize-v02.png') }}" alt="lodge-logo">
               <h1 class="d-inline page-heading">Aviation & Combined Services Lodge</h1>
             </div>
           </div>
-          <hr>
         </header>
 
         {% block content %}
         {% endblock %}
 
         <footer class="container-fluid">
-          <hr>
             <div class="row text-center">
               <div class="col-12 col-sm-4 my-3 my-sm-auto">
                 <a href="#" class="h5">Admin</a>

@@ -1,5 +1,5 @@
 .header-spacer {
-  height: 175px;
+  height: 150px;
 }
 
 .page-container {
@@ -11,12 +11,19 @@
   padding-bottom: 6rem;
 }
 
+body {
+  background: url("./../img/hero1.jpg") no-repeat fixed;
+  background-size: cover;
+  background-position: 0px 120px;
+  height: calc(100vh - 152px);
+}
+
 header {
-  background-color: white;
+  background-color: #fafafa;
 }
 
 footer {
-  background-color: white;
+  background-color: #fafafa;
   position: absolute;
   bottom: 0;
 }
@@ -36,5 +43,9 @@ footer .row {
 
   .main-content {
     padding-bottom: 13rem;
+  }
+
+  .header-spacer {
+    height: 185px;
   }
 }
