@@ -93,6 +93,41 @@ The database used is a non relational database, using [MongoDB](https://www.mong
 Back to [Table of Contents](#table-of-contents)
 
 ## Testing
+As this is a relatively simple page, the testing carried out is also relatively basic.
+
+### Code Validation
+Both HTML files and CSS file were run through code validators and minor fixes were carried out to result in no findings. the `app.py` file was run through a PEP8 validator and minor issues (line length) were fixed.
+
+### Chrome Lighthouse reports
+Below are the lighthouse reports for -
+#### Home page
+![lighthouse report for home page](static/img/lh-home.png)
+#### Thanks page
+![lighthouse report for thanks page](static/img/lh-thanks.png)
+#### admin page
+![lighthouse report for thanks page](static/img/lh-admin.png)
+
+### User Story Evaluation
+  - As a user, I want to:
+    - have a clear picture of what the page is for
+      - __A large logo and title are at the top of the page, along with a description of what to do in the main section__
+    - easily understand what information is required by the form
+      - __Each input field has placeholder text to describe what information is required__
+      - be notified if I have not filled the form in correctly
+        - __There is an error message if the form fails to submit, and any required fields will have browser generated messages if they are not completed properly__
+      - be notified that the form was submitted successfully
+        - __Once the form has been submitted, the user is directed to the 'thanks' page, and informed that the form has been submitted__
+  - As the site administrator, I want to:
+    - have a secure access to the admin page
+      - __The admin page is password protected and also protected against inadvertent navigation by using session variables__
+    - have the data collected display in an easy-to-read way
+      - __The gathered data is presented in tables to display clearly the data that has been collected__
+    - have the ability to clear the data
+      - __There is a reset button on the admin page that will remove all data from the database and blank the tables__
+    - be warned before that data is cleared
+      - __when attempting to clear the data, a modal prompts the user to confirm__
+
+Back to [Table of Contents](#table-of-contents)
 
 ## Deployment
 ### Heroku
@@ -135,8 +170,10 @@ Back to [Table of Contents](#table-of-contents)
 
 ### Content
   - All content was written by myself or taken from documentation relating to the various API's used to facilitate this page.
+  - The code to 'animate' the flash messages came from [Stack Overflow](https://stackoverflow.com/questions/21993661/css-auto-hide-elements-after-5-seconds/21994053#21994053)
 
 ### Acknowledgements
   - The logo picture was sourced from Aviation & Combined Services Lodge No. 8504.
+  - The background images were sourced from [pixabay](https://pixabay.com/)
 
 Back to [Table of Contents](#table-of-contents)
