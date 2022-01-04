@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -62,6 +62,7 @@ def password():
     if request.method == "POST":
         user = mongo.db.admin.find_one({"user": "admin"})
         if check_password_hash(user["password"], request.form.get("password")):
+            session["auth"] = True
             return redirect(url_for("admin"))
         else:
             flash("Incorrect Password", "error")
@@ -70,21 +71,24 @@ def password():
 
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
+    if "auth" in session:
+        attendees = list(mongo.db.form_data.find())
+        guests = list(mongo.db.guest_data.find())
+        member_number = len(attendees)
+        guest_number = len(guests)
+        total_member_dining = len(list(
+            mongo.db.form_data.find({"dining": "True"})))
+        total_guest_dining = len(list(
+            mongo.db.guest_data.find({"guest_dining": "True"})))
+        total_dining = total_member_dining + total_guest_dining
 
-    attendees = list(mongo.db.form_data.find())
-    guests = list(mongo.db.guest_data.find())
-    member_number = len(attendees)
-    guest_number = len(guests)
-    total_member_dining = len(list(
-        mongo.db.form_data.find({"dining": "True"})))
-    total_guest_dining = len(list(
-        mongo.db.guest_data.find({"guest_dining": "True"})))
-    total_dining = total_member_dining + total_guest_dining
-
-    return render_template("admin.html", attendees=attendees,
-                           guests=guests, member_number=member_number,
-                           guest_number=guest_number,
-                           total_dining=total_dining)
+        return render_template("admin.html", attendees=attendees,
+                               guests=guests, member_number=member_number,
+                               guest_number=guest_number,
+                               total_dining=total_dining)
+    else:
+        flash("Please use the login at the bottom of the page", "error")
+        return redirect(url_for("home"))
 
 
 @app.route("/reset", methods=["GET", "POST"])
@@ -94,6 +98,13 @@ def reset():
         mongo.db.guest_data.remove({})
         flash("Data successfully reset", "success")
         return redirect(url_for("admin"))
+
+
+@app.route("/logout")
+def logout():
+    session.pop("auth")
+    flash("Successfully logged out", "success")
+    return redirect(url_for("home"))
 
 
 if __name__ == "__main__":
