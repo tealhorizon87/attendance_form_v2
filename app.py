@@ -49,7 +49,6 @@ def home():
 
         return redirect(url_for("thanks"))
 
-
     return render_template("home.html")
 
 
@@ -76,13 +75,16 @@ def admin():
     guests = list(mongo.db.guest_data.find())
     member_number = len(attendees)
     guest_number = len(guests)
-    total_member_dining = len(list(mongo.db.form_data.find({"dining": "True"})))
-    total_guest_dining = len(list(mongo.db.guest_data.find({"guest_dining": "True"})))
+    total_member_dining = len(list(
+        mongo.db.form_data.find({"dining": "True"})))
+    total_guest_dining = len(list(
+        mongo.db.guest_data.find({"guest_dining": "True"})))
     total_dining = total_member_dining + total_guest_dining
 
     return render_template("admin.html", attendees=attendees,
                            guests=guests, member_number=member_number,
-                           guest_number=guest_number, total_dining=total_dining)
+                           guest_number=guest_number,
+                           total_dining=total_dining)
 
 
 @app.route("/reset", methods=["GET", "POST"])

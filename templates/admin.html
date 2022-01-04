@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{% block styles %}
+  <style>
+    body {
+      background: url("{{ url_for('static', filename='img/hero2.jpg') }}") no-repeat center fixed;
+      background-size: cover;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
   <div class="container-fluid">
     <div class="row">
@@ -9,9 +18,11 @@
             <h2>Members</h2>
             <table class="table">
               <thead>
-                <th scope="col">Name</th>
-                <th scope="col">Dining</th>
-                <th scope="col">Dietary Requirements</th>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Dining</th>
+                  <th scope="col">Dietary Requirements</th>
+                </tr>
               </thead>
               <tbody>
                 {% for attendee in attendees %}
@@ -33,10 +44,12 @@
             <h2>Guests</h2>
             <table class="table">
               <thead>
-                <th scope="col">Name</th>
-                <th scope="col">Dining</th>
-                <th scope="col">Dietary Requirements</th>
-                <th scope="col">Sponsor</th>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Dining</th>
+                  <th scope="col">Dietary Requirements</th>
+                  <th scope="col">Sponsor</th>
+                </tr>
               </thead>
               <tbody>
                 {% for guest in guests %}
@@ -59,9 +72,11 @@
             <h2>Totals</h2>
             <table class="table">
               <thead>
-                <th scope="col">Members</th>
-                <th scope="col">Guests</th>
-                <th scope="col">Total dining</th>
+                <tr>
+                  <th scope="col">Members</th>
+                  <th scope="col">Guests</th>
+                  <th scope="col">Total dining</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
@@ -74,9 +89,7 @@
           </div>
           <div class="col-8 offset-2 d-flex justify-content-center mb-3">
             <button class="btn btn-primary mx-auto px-3" onclick="window.print();return false;">Print</button>
-            <button class="btn btn-danger mx-auto px-3">
-              <a href="#" class="text-white" id="resetModalButton" data-toggle="modal" data-target="#resetModal">Reset</a>
-            </button>
+            <a href="#" class="nav-link btn btn-danger mx-auto px-3" id="resetModalButton" data-toggle="modal" data-target="#resetModal">Reset</a>
           </div>
         </div>
       </div>
