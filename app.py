@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 if os.path.exists("env.py"):
     import env
 
@@ -28,21 +29,21 @@ def home():
         }
         if guest_1_name:
             guest1 = {
-                "guest_1_name": request.form.get("guest_1_name"),
-                "guest_1_dining": request.form.get("guest_1_dining"),
-                "guest_1_diet": request.form.get("guest_1_diet"),
-                "guest_1_sponsor": request.form.get("name"),
+                "guest_name": request.form.get("guest_1_name"),
+                "guest_dining": request.form.get("guest_1_dining"),
+                "guest_diet": request.form.get("guest_1_diet"),
+                "guest_sponsor": request.form.get("name"),
             }
             mongo.db.guest_data.insert_one(guest1)
         if guest_2_name:
             guest2 = {
-                "guest_2_name": request.form.get("guest_2_name"),
-                "guest_2_dining": request.form.get("guest_2_dining"),
-                "guest_2_diet": request.form.get("guest_2_diet"),
-                "guest_2_sponsor": request.form.get("name"),
+                "guest_name": request.form.get("guest_2_name"),
+                "guest_dining": request.form.get("guest_2_dining"),
+                "guest_diet": request.form.get("guest_2_diet"),
+                "guest_sponsor": request.form.get("name"),
             }
             mongo.db.guest_data.insert_one(guest2)
-            
+
         mongo.db.form_data.insert_one(member)
 
         return redirect(url_for("thanks"))
@@ -59,13 +60,31 @@ def thanks():
 @app.route("/password", methods=["GET", "POST"])
 def password():
     if request.method == "POST":
-        return render_template("admin.html")
+        return redirect(url_for("admin"))
 
 
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
 
-    return render_template("admin.html")
+    attendees = list(mongo.db.form_data.find())
+    guests = list(mongo.db.guest_data.find())
+    member_number = len(attendees)
+    guest_number = len(guests)
+    total_member_dining = len(list(mongo.db.form_data.find({"dining": "True"})))
+    total_guest_dining = len(list(mongo.db.guest_data.find({"guest_dining": "True"})))
+    total_dining = total_member_dining + total_guest_dining
+
+    return render_template("admin.html", attendees=attendees,
+                           guests=guests, member_number=member_number,
+                           guest_number=guest_number, total_dining=total_dining)
+
+
+@app.route("/reset", methods=["GET", "POST"])
+def reset():
+    if request.method == "POST":
+        mongo.db.form_data.remove({})
+        mongo.db.guest_data.remove({})
+        return redirect(url_for("admin"))
 
 
 if __name__ == "__main__":

@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{% block styles %}
+  <style>
+    body {
+      background: url("{{ url_for('static', filename='img/hero2.jpg') }}") no-repeat center fixed;
+      background-size: cover;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
   <div class="container header-spacer">
     <div class="row">
@@ -7,5 +16,85 @@
     </div>
   </div>
 
-  <h2>Admin</h2>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+        <div class="row card m-3">
+          <div class="col card-body text-center mt-5">
+            <h2>Members</h2>
+            <table class="table">
+              <thead>
+                <th scope="col">Name</th>
+                <th scope="col">Dining</th>
+                <th scope="col">Dietary Requirements</th>
+              </thead>
+              <tbody>
+                {% for attendee in attendees %}
+                  <tr>
+                    <td>{{ attendee.name }}</td>
+                    {% if attendee.dining == "True" %}
+                      <td><i class="fas fa-check"></i></td>
+                      <td>{{ attendee.diet }}</td>
+                    {% else %}
+                      <td></td>
+                      <td></td>
+                    {% endif %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="col card-body text-center mt-5">
+            <h2>Guests</h2>
+            <table class="table">
+              <thead>
+                <th scope="col">Name</th>
+                <th scope="col">Dining</th>
+                <th scope="col">Dietary Requirements</th>
+                <th scope="col">Sponsor</th>
+              </thead>
+              <tbody>
+                {% for guest in guests %}
+                  <tr>
+                    <td>{{ guest.guest_name }}</td>
+                    {% if guest.guest_dining == "True" %}
+                      <td><i class="fas fa-check"></i></td>
+                      <td>{{ guest.guest_diet }}</td>
+                    {% else %}
+                      <td></td>
+                      <td></td>
+                    {% endif %}
+                    <td>{{ guest.guest_sponsor }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="col-6 offset-3 text-center card-body mt-5">
+            <h2>Totals</h2>
+            <table class="table">
+              <thead>
+                <th scope="col">Members</th>
+                <th scope="col">Guests</th>
+                <th scope="col">Total dining</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ member_number }}</td>
+                  <td>{{ guest_number }}</td>
+                  <td><strong>{{ total_dining }}</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-8 offset-2 d-flex justify-content-center mb-3">
+            <button class="btn btn-primary mx-auto px-3" onclick="window.print();return false;">Print</button>
+            <button class="btn btn-danger mx-auto px-3">
+              <a href="#" class="h5 text-white" id="resetModalButton" data-toggle="modal" data-target="#resetModal">Reset</a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

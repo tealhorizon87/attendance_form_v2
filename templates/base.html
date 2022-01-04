@@ -6,6 +6,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/style.css') }}">
+    {% block styles %}
+    {% endblock %}
 
     <script src="https://kit.fontawesome.com/b0451faeb3.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -29,23 +31,44 @@
         {% block content %}
         {% endblock %}
 
-        <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="adminModalLabel">Password Required</h5>
-              </div>
-              <div class="modal-body">
-                <form action="{{ url_for('password') }}" method="POST" class="text-center">
-                  <div class="form-group">
-                    <input id="password" class="form-control" name="password" type="text" placeholder="Password" required>
-                  </div>
-                  <button type="submit" name="button" class="btn btn-primary mt-3">Enter</button>
-                </form>
+        <section>
+          <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="adminModalLabel">Password Required</h5>
+                </div>
+                <div class="modal-body">
+                  <form action="{{ url_for('password') }}" method="POST" class="text-center">
+                    <div class="form-group">
+                      <input id="password" class="form-control" name="password" type="text" placeholder="Password" required>
+                    </div>
+                    <button type="submit" name="button" class="btn btn-primary mt-3">Enter</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+
+          <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="resetModalLabel">Are you sure?</h5>
+                  <p>Once you reset, all data will be lost</p>
+                </div>
+                <div class="modal-body">
+                  <form action="{{ url_for('reset') }}" method="POST" class="text-center">
+                    <button type="button" class="btn btn-secondary mx-auto px-3">
+                      <a href="{{ url_for('admin') }}" class="text-white">Cancel</a>
+                    </button>
+                    <button type="submit" class="btn btn-danger mx-auto px-3">Reset</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <footer class="container-fluid">
             <div class="row text-center">
