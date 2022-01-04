@@ -28,6 +28,26 @@
           </div>
         </header>
 
+        <div class="container header-spacer">
+          <div class="row">
+            <div class="col"></div>
+          </div>
+        </div>
+
+        <section>
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="row" id="flashMessages" >
+                  <div class="col col-sm-10 offset-sm-1 col-md-6 offset-md-3 card">
+                    <h3 class="text-center card-body text-danger">{{ message }}</h3>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </section>
+
         {% block content %}
         {% endblock %}
 
@@ -55,9 +75,9 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="resetModalLabel">Are you sure?</h5>
-                  <p>Once you reset, all data will be lost</p>
                 </div>
                 <div class="modal-body">
+                  <p>Once you reset, all data will be lost</p>
                   <form action="{{ url_for('reset') }}" method="POST" class="text-center">
                     <button type="button" class="btn btn-secondary mx-auto px-3">
                       <a href="{{ url_for('admin') }}" class="text-white">Cancel</a>

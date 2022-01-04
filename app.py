@@ -1,7 +1,10 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import (
+    Flask, render_template, request, redirect,
+    url_for, flash)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists("env.py"):
     import env
 
@@ -60,7 +63,12 @@ def thanks():
 @app.route("/password", methods=["GET", "POST"])
 def password():
     if request.method == "POST":
-        return redirect(url_for("admin"))
+        user = mongo.db.admin.find_one({"user": "admin"})
+        if check_password_hash(user["password"], request.form.get("password")):
+            return redirect(url_for("admin"))
+        else:
+            flash("Incorrect Password", "error")
+            return redirect(url_for("home"))
 
 
 @app.route("/admin", methods=["GET", "POST"])
@@ -84,6 +92,7 @@ def reset():
     if request.method == "POST":
         mongo.db.form_data.remove({})
         mongo.db.guest_data.remove({})
+        flash("Data successfully reset", "success")
         return redirect(url_for("admin"))
 
 
