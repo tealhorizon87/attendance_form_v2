@@ -18,8 +18,8 @@
         <header class="container-fluid fixed-top pb-3">
           <div class="row">
             <div class="col d-flex align-items-center mt-3">
-              <a href="{{ url_for('home') }}">
-                <img class="mx-3" src="{{ url_for('static', filename='img/logo-resize-v02.png') }}" alt="lodge-logo">
+              <a class="nav-link" href="{{ url_for('home') }}">
+                <img class="mx-3" src="{{ url_for('static', filename='img/logo.png') }}" height="80" width="80" alt="lodge-logo">
               </a>
               <h1 class="d-inline page-heading">Aviation & Combined Services Lodge</h1>
             </div>
@@ -36,7 +36,7 @@
                 <h5 class="modal-title" id="adminModalLabel">Password Required</h5>
               </div>
               <div class="modal-body">
-                <form action="{{ url_for('admin') }}" method="POST" class="text-center">
+                <form action="{{ url_for('password') }}" method="POST" class="text-center">
                   <div class="form-group">
                     <input id="password" class="form-control" name="password" type="text" placeholder="Password" required>
                   </div>
@@ -53,12 +53,12 @@
                 <a href="#" class="h5 admin-link" id="adminModalButton" data-toggle="modal" data-target="#adminModal">Admin</a>
               </div>
               <div class="col-12 col-sm-4 my-3 my-sm-auto">
-                <p class="mb-0">Lodge No.8504</p>
+                <a href="https://aviationlodge8504.org.uk/" target="_blank" rel="noopener" class="h5 admin-link">aviationlodge8504.org.uk</a>
               </div>
               <div class="col-12 col-sm-4 my-3 my-sm-auto">
                 <ul class="list-inline h5">
                   <li class="list-inline-item">
-                    <a href="#" class="h5 link">
+                    <a href="https://www.facebook.com/groups/418457545161817" target="_blank" rel="noopener" class="h5 link">
                       <i class="fab fa-facebook-square"></i>
                     </a>
                   </li>
