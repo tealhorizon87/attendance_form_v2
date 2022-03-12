@@ -10,90 +10,187 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
-        <div class="row card m-3">
-          <div class="col card-body text-center mt-5">
-            <h2>Members</h2>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Dining</th>
-                  <th scope="col">Dietary Requirements</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for attendee in attendees %}
-                  <tr>
-                    <td>{{ attendee.name }}</td>
-                    {% if attendee.dining == "True" %}
-                      <td><i class="fas fa-check"></i></td>
-                      <td>{{ attendee.diet }}</td>
-                    {% else %}
-                      <td></td>
-                      <td></td>
-                    {% endif %}
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div class="col card-body text-center mt-5">
-            <h2>Guests</h2>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Dining</th>
-                  <th scope="col">Dietary Requirements</th>
-                  <th scope="col">Sponsor</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for guest in guests %}
-                  <tr>
-                    <td>{{ guest.guest_name }}</td>
-                    {% if guest.guest_dining == "True" %}
-                      <td><i class="fas fa-check"></i></td>
-                      <td>{{ guest.guest_diet }}</td>
-                    {% else %}
-                      <td></td>
-                      <td></td>
-                    {% endif %}
-                    <td>{{ guest.guest_sponsor }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div class="col-6 offset-3 text-center card-body mt-5">
-            <h2>Totals</h2>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Members</th>
-                  <th scope="col">Guests</th>
-                  <th scope="col">Total dining</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{ member_number }}</td>
-                  <td>{{ guest_number }}</td>
-                  <td><strong>{{ total_dining }}</strong></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="col-8 offset-2 d-flex justify-content-center mb-3">
-            <button class="btn btn-primary mx-auto px-3" onclick="window.print();return false;">Print</button>
-            <a href="#" class="nav-link btn btn-danger mx-auto px-3" id="resetModalButton" data-toggle="modal" data-target="#resetModal">Reset</a>
-            <a href="{{ url_for('logout') }}" class="btn btn-secondary mx-auto px-3" >Log out</a>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+      <div class="row card m-3">
+        <div class="col card-body text-center mt-5">
+          <h2 class="h1"><strong>Our Next Meeting</strong></h2>
+          <h3 class="mb-5 h4">Tuesday, March 8th 2022</h3>
+          <h4><u>The Menu</u></h4>
+          <p class="m-0">Chicken skewers with mango and chilli salsa</p>
+          <p class="m-0">Roast beef and homemade Yorkshire puddings</p>
+          <p class="m-0">Cheese and biscuits ( British cheese selection)</p>
+          <p class="mt-5">
+            Please fill in this form to let our dining secretary know that you are attending
+            the next meeting, and if you are bringing a guest or guests.
+          </p>
+        </div>
+        <div class="row">
+          <div class="col">
+            <form onsubmit="return sendMail(this);" class="row mt-3 attendance-form" id="attendanceForm">
+              <div class="col-10 offset-1 form-group">
+                <input type="text" class="form-control my-auto" name="name" placeholder="Name" required>
+              </div>
+              <div class="col-10 offset-1 form-group mt-3">
+                <input type="email" class="form-control my-auto" name="email" placeholder="Email">
+              </div>
+              <div class="col-12 text-center my-3">
+                <div class="form-check-inline">
+                  <input class="form-check-input" type="radio" name="dining" id="diningRadio" value="dining" checked>
+                  <label class="form-check-label" for="diningRadio">
+                    Dining
+                  </label>
+                </div>
+                <div class="form-check-inline">
+                  <input class="form-check-input" type="radio" name="dining" id="notDiningRadio" value="not dining">
+                  <label class="form-check-label" for="notDiningRadio">
+                    Not Dining
+                  </label>
+                </div>
+              </div>
+              <div class="col-10 offset-1 form-group">
+                <select class="form-control mb-3" onchange="dietSelector(this);" name="diet" required>
+                  <option selected disabled>Dietary Requirements</option>
+                  <option value="none">None</option>
+                  <option value="vegetarian">Vegetarian</option>
+                  <option value="vegan">Vegan</option>
+                  <option value="fish">Fish</option>
+                  <option value="dairy-free">Dairy Free</option>
+                  <option value="gluten-free">Gluten Free</option>
+                  <option value="other">Other</option>
+                </select>
+                <input type="text" class="form-control my-auto"
+                  style="display: none;" id="otherDiet" name="other-diet" placeholder="Please specify...">
+              </div>
+              <div class="col-10 offset-1">
+                <h3 class="mt-5">Guests</h3>
+                <p class="font-weight-bold text-center">
+                  Please make sure you include your guest's rank with their name
+                </p>
+              </div>
+              <div class="col-10 offset-1 d-flex justify-content-center">
+                <div>
+                  <h4 class="h6">Guest 1:</h4>
+                  <div class="form-inline">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="guest_1_name" placeholder="Rank & Name">
+                    </div>
+                    <div class="text-center m-3">
+                      <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="guest_1_dining" id="guest1DiningRadio" value="dining" checked>
+                        <label class="form-check-label" for="guest1DiningRadio">
+                          Dining
+                        </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="guest_1_dining" id="guest1NotDiningRadio" value="not dining">
+                        <label class="form-check-label" for="guest1NotDiningRadio">
+                          Not Dining
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <select class="form-control mb-3" onchange="dietSelector(this);" name="guest_1_diet" required>
+                        <option selected disabled>Dietary Requirements</option>
+                        <option value="none">None</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="fish">Fish</option>
+                        <option value="dairy-free">Dairy Free</option>
+                        <option value="gluten-free">Gluten Free</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control my-auto"
+                    style="display: none;" id="otherDiet1" name="other-guest_1_diet" placeholder="Please specify...">
+                </div>
+              </div>
+              <div class="col-10 offset-1 d-flex justify-content-center">
+                <div>
+                  <h4 class="h6 mt-3">Guest 2:</h4>
+                  <div class="form-inline">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="guest_2_name" placeholder="Rank & Name">
+                    </div>
+                    <div class="text-center m-3">
+                      <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="guest_2_dining" id="guest2DiningRadio" value="dining" checked>
+                        <label class="form-check-label" for="guest2DiningRadio">
+                          Dining
+                        </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="guest_2_dining" id="guest2NotDiningRadio" value="not dining">
+                        <label class="form-check-label" for="guest2NotDiningRadio">
+                          Not Dining
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <select class="form-control mb-3" onchange="dietSelector(this);" name="guest_2_diet" required>
+                        <option selected disabled>Dietary Requirements</option>
+                        <option value="none">None</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="fish">Fish</option>
+                        <option value="dairy-free">Dairy Free</option>
+                        <option value="gluten-free">Gluten Free</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control my-auto"
+                    style="display: none;" id="otherDiet2" name="other-guest_2_diet" placeholder="Please specify...">
+                </div>
+              </div>
+              <div class="col-10 offset-1 d-flex justify-content-center">
+                <div>
+                  <h4 class="h6 mt-3">Guest 3:</h4>
+                  <div class="form-inline">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="guest_3_name" placeholder="Rank & Name">
+                    </div>
+                    <div class="text-center m-3">
+                      <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="guest_3_dining" id="guest3DiningRadio" value="dining" checked>
+                        <label class="form-check-label" for="guest3DiningRadio">
+                          Dining
+                        </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="guest_3_dining" id="guest3NotDiningRadio" value="not dining">
+                        <label class="form-check-label" for="guest3NotDiningRadio">
+                          Not Dining
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <select class="form-control mb-3" onchange="dietSelector(this);" name="guest_3_diet" required>
+                        <option selected disabled>Dietary Requirements</option>
+                        <option value="none">None</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="fish">Fish</option>
+                        <option value="dairy-free">Dairy Free</option>
+                        <option value="gluten-free">Gluten Free</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control my-auto"
+                    style="display: none;" id="otherDiet3" name="other-guest_3_diet" placeholder="Please specify...">
+                </div>
+              </div>
+              <div class="col-10 offset-1 col-md-4 offset-md-4 mt-5 text-center">
+                <button type="submit" class="btn btn-primary center-text px-5">Submit</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </div>
 {% endblock %}

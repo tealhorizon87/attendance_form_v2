@@ -1,6 +1,6 @@
 # Attendance Form
 
-This is a page designed for a social group that want to know how many of their members will be attending a meeting, whether they wish to dine after the meeting, and whether they have any guests.
+This is a page designed for a social group that want to know how many of their members will be attending a meeting, whether they wish to dine after the meeting, and whether they have any guests. The live site can be seen [here](https://acs8504-attendance-form.herokuapp.com/)
 
 ## Table of Contents
 1. [UX](#ux)
